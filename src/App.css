@@ -8,6 +8,14 @@ body {
     font-family: 'Courgette', cursive;
 }
 
+.text-dancing {
+    font-family: 'Dancing Script', cursive;
+}
+
 .accent {
     color: #ff4081;
+}
+
+.bg-accent {
+    background: #ff4081;
 }
