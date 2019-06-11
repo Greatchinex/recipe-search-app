@@ -20,7 +20,7 @@ class Context extends Component {
     //         const data = await axios.get(`https://www.food2fork.com/api/search?key=${process.env.REACT_APP_MM_KEY}&page=2`);
 
     //         this.setState({
-    //             recipes: data
+    //             recipes: data.data.recipes
     //         })
     //     }
     //     catch(error) {
@@ -28,7 +28,7 @@ class Context extends Component {
     //     }
     // }
 
-    // Life Cycle Hook To Load The Recipes Upon Page Load
+    // // Life Cycle Hook To Load The Recipes Upon Page Load
     // componentDidMount() {
     //     this.getRecipes();
     // }
