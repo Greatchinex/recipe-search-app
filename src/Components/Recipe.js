@@ -8,7 +8,7 @@ class Recipe extends Component {
         return (
             <Consumer>
                 {value => {
-                    console.log(value.recipes);
+                    // console.log(value.recipes);
                     const { recipes } = value;
 
                     if(recipes === undefined || recipes.length === 0) {

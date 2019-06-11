@@ -11,6 +11,7 @@ class Context extends Component {
     
         this.state = {
             recipes: [],
+            RecipeTitle: ""
         }
     }
 
@@ -48,12 +49,34 @@ class Context extends Component {
             return { recipes }
         })
     }
+
+    // onChange Event
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value})
+    }
     
+    // Function to search for a recipe
+    searchRecipes = (e) => {
+        e.preventDefault();
+        axios.get(`https://www.food2fork.com/api/search?key=${process.env.REACT_APP_MM_KEY}&q=${this.state.RecipeTitle}&page=2 `)
+            .then(res => {
+                // console.log(res.data);
+                this.setState(() => {
+                    return {recipes: res.data.recipes, RecipeTitle: ""}
+                })
+            })
+            .catch(err => console.log(err))
+    }
 
 
     render() {
         return (
-            <RecipeContext.Provider value={this.state}>
+            <RecipeContext.Provider value={{
+                ...this.state,
+                onChange: this.onChange,
+                searchRecipes: this.searchRecipes
+                }}
+            >
                 {this.props.children}
             </RecipeContext.Provider>
         )
