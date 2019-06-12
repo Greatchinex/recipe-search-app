@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Spinner from '../Gif/Spinner';
-import { recipe } from '../tempDetails';
 
 class Details extends Component {
 
@@ -10,34 +9,33 @@ class Details extends Component {
         super(props)
     
         this.state = {
-            // recipeDetails: recipe
             recipeDetails: {}
         }
     }
 
     // function to get details of recipes
-    // async getRecipeDetails() {
-    //     try {
-    //         // this.props.recipe_id: Gets the recipe id from the react router in the url of Recipes component
-    //         const details = await axios.get(`https://www.food2fork.com/api/get?key=${process.env.REACT_APP_MM_KEY}&rId=${this.props.recipe_id}`);
+    async getRecipeDetails() {
+        try {
+            // this.props.recipe_id: Gets the recipe id from the react router in the url of Recipes component
+            const details = await axios.get(`https://www.food2fork.com/api/get?key=${process.env.REACT_APP_MM_KEY}&rId=${this.props.match.params.id}`);
 
-    //         // console.log(details);
+            // console.log(details);
 
-    //         this.setState({
-    //             recipeDetails: details.data.recipe
-    //         })
-    //     } catch(error) {
-    //         console.log(error);
-    //     }
-    // }
+            this.setState(() => {
+                return {recipeDetails: details.data.recipe}
+                }
+            )
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
-    // componentDidMount() {
-    //     this.getRecipeDetails();
-    // }
+    componentDidMount() {
+        this.getRecipeDetails();
+    }
     
 
     render() {
-        console.log(this.state.recipeDetails);
         const { title, image_url, publisher, publisher_url, source_url, ingredients } = this.state.recipeDetails;
 
         if(this.state.recipeDetails === undefined || Object.keys(this.state.recipeDetails).length === 0) {
@@ -57,20 +55,6 @@ class Details extends Component {
                         <a href={publisher_url} className="btn btn-info" target="_blank" rel="noopener noreferrer"> Publishers Site </a>
                         <a href={source_url} className="btn btn-success ml-4" target="_blank" rel="noopener noreferrer"> Recipe Url </a>
                         <h1 className="text-dancing mt-4" style={{color: "#808000"}}>Ingredients</h1>
-                        {/* Ingredients List */}
-                        {/* <ul className="list-group mt-4">
-                            {
-                                // I used the index as Key because i know that the values in the ingredients array will never change.
-                                ingredients.map((item, index) => {
-                                    return(
-                                        <li key={index} className="list-group-item text-slanted lead">
-                                            {item}
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul> */}
-                        {/* <p> {ingredients} </p> */}
                         <ul className="list-group mt-4">
                            <li className="list-group-item text-slanted lead">
                                 {ingredients}

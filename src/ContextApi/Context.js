@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Recipes } from '../tempList';
 
 const RecipeContext = React.createContext();
 
@@ -11,43 +10,28 @@ class Context extends Component {
     
         this.state = {
             recipes: [],
-            RecipeTitle: ""
+            RecipeTitle: "",
+            error: ""
         }
     }
 
     // Function to get Recipes from 3rd party Api
-    // async getRecipes() {
-    //     try {
-    //         const data = await axios.get(`https://www.food2fork.com/api/search?key=${process.env.REACT_APP_MM_KEY}&page=2`);
+    async getRecipes() {
+        try {
+            const data = await axios.get(`https://www.food2fork.com/api/search?key=${process.env.REACT_APP_MM_KEY}&page=2`);
 
-    //         this.setState({
-    //             recipes: data.data.recipes
-    //         })
-    //     }
-    //     catch(error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // // Life Cycle Hook To Load The Recipes Upon Page Load
-    // componentDidMount() {
-    //     this.getRecipes();
-    // }
-
-    componentDidMount() {
-        this.setRecipes();
+            this.setState({
+                recipes: data.data.recipes
+            })
+        }
+        catch(error) {
+            console.log(error);
+        }
     }
 
-    setRecipes() {
-        let recipes = [];
-        Recipes.forEach(item => {
-            const singleItem = {...item};  // ...item: Copying the values from the recipes array
-            recipes = [...recipes, singleItem]
-        });
-
-        this.setState(() => {
-            return { recipes }
-        })
+    // Life Cycle Hook To Load The Recipes Upon Page Load
+    componentDidMount() {
+        this.getRecipes();
     }
 
     // onChange Event
@@ -60,10 +44,16 @@ class Context extends Component {
         e.preventDefault();
         axios.get(`https://www.food2fork.com/api/search?key=${process.env.REACT_APP_MM_KEY}&q=${this.state.RecipeTitle}&page=2 `)
             .then(res => {
-                // console.log(res.data);
-                this.setState(() => {
-                    return {recipes: res.data.recipes, RecipeTitle: ""}
-                })
+                console.log(res.data);
+                if(res.data.recipes.length === 0) {
+                    this.setState(() => {
+                        return {error: "Sorry But Your Search Did Not Return Any Results", RecipeTitle: ""}
+                    })
+                } else {
+                    this.setState(() => {
+                        return {recipes: res.data.recipes, RecipeTitle: ""}
+                    })
+                }
             })
             .catch(err => console.log(err))
     }

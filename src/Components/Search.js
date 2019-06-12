@@ -10,7 +10,6 @@ class Search extends Component {
                     <p className="text-center mt-2 text-capitalize">Search for various food recipes</p>
                     <Consumer>
                         {value => {
-                            console.log(value)
                             return(
                                 <form onSubmit={value.searchRecipes}>
                                     <div className="input-group mb-3">

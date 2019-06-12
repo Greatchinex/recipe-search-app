@@ -7,9 +7,7 @@ class Recipes extends Component {
         return (
             <div className="col-10 mx-auto col-md-4 container">
                 <div className="card mb-4">
-                    {/* <div className="card-header"> */}
-                        <img src={image_url} alt="Recipe" style={{height: "14em"}} className="img-card-top" />
-                    {/* </div> */}
+                    <img src={image_url} alt="Recipe" style={{height: "14em"}} className="img-card-top" />
                     <div className="card-body">
                         <p className="card-text lead"> {title} </p>
                         <p className="card-text text-slanted accent"> Provided by {publisher} </p>
